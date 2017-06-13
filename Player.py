@@ -19,16 +19,16 @@ class Player:
 
         # Horizontal movement
         self.move_x = 0.0
-        if keys_pressed[pygame.K_A]:
+        if keys_pressed[pygame.K_a]:
             self.move_x -= self.speed
-        if keys_pressed[pygame.K_D]:
+        if keys_pressed[pygame.K_d]:
             self.move_x += self.speed
 
         # Vertical movement
         self.move_y = 0.0
-        if keys_pressed[pygame.K_W]:
+        if keys_pressed[pygame.K_w]:
             self.move_y -= self.speed
-        if keys_pressed[pygame.K_S]:
+        if keys_pressed[pygame.K_s]:
             self.move_y += self.speed
 
         # Handle diagonal movement
@@ -44,10 +44,24 @@ class Player:
         horizontal_collisions = pygame.sprite.spritecollide(self, collisions,
                                                             False)
         for collision in horizontal_collisions:
-            collision.Collide()
+            collision.HorizontalCollide(self)
 
         self.rect.y = int(self.actual_y)
         vertical_collisions = pygame.sprite.spritecollide(self, collisions,
                                                           False)
         for collision in vertical_collisions:
-            collision.Collide()
+            collision.VerticalCollide(self)
+
+    def UpdateActualPosition(self):
+        self.UpdateActualXPosition()
+        self.UpdateActualYPosition()
+        
+    def UpdateActualXPosition(self):
+        self.actual_x = self.rect.x
+
+    def UpdateActualYPosition(self):
+        self.actual_y = self.rect.y
+
+    def UpdateRectPosition(self):
+        self.rect.x = self.actual_x
+        self.rect.y = self.actual_y

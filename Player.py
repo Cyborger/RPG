@@ -40,13 +40,13 @@ class Player:
         self.actual_y += self.move_y
 
     def UpdateMovement(self, collisions=[]):
-        self.rect.x = int(self.actual_x)
+        self.UpdateRectXPosition()
         horizontal_collisions = pygame.sprite.spritecollide(self, collisions,
                                                             False)
         for collision in horizontal_collisions:
             collision.HorizontalCollide(self)
 
-        self.rect.y = int(self.actual_y)
+        self.UpdateRectYPosition()
         vertical_collisions = pygame.sprite.spritecollide(self, collisions,
                                                           False)
         for collision in vertical_collisions:
@@ -55,7 +55,7 @@ class Player:
     def UpdateActualPosition(self):
         self.UpdateActualXPosition()
         self.UpdateActualYPosition()
-        
+
     def UpdateActualXPosition(self):
         self.actual_x = self.rect.x
 
@@ -63,5 +63,11 @@ class Player:
         self.actual_y = self.rect.y
 
     def UpdateRectPosition(self):
-        self.rect.x = self.actual_x
-        self.rect.y = self.actual_y
+        self.UpdateRectXPosition()
+        self.UpdateRectYPosition()
+
+    def UpdateRectXPosition(self):
+        self.rect.x = int(self.actual_x)
+
+    def UpdateRectYPosition(self):
+        self.rect.y = int(self.actual_y)

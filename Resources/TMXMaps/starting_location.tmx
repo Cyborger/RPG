@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="9">
+ <properties>
+  <property name="north_location" value="second_location"/>
+ </properties>
  <tileset firstgid="1" name="Terrain" tilewidth="16" tileheight="16" tilecount="9" columns="3">
   <image source="../Spritesheets/Terrain.png" trans="ff00ff" width="48" height="48"/>
  </tileset>

@@ -13,6 +13,10 @@ class TMXLoader:
         self.tiles_high = self.tmx_data.height
         self.total_width = self.tile_width * self.tiles_wide
         self.total_height = self.tile_height * self.tiles_high
+        self.locaton_n = self.tmx_data.properties.get("north location")
+        self.location_e = self.tmx_data.properties.get("east location")
+        self.location_s = self.tmx_data.properties.get("south location")
+        self.location_w = self.tmx_data.properties.get("west location")
         self.Load()
 
     def AddCollision(self, obj):
@@ -40,6 +44,6 @@ class Tile:
         self.rect.x = x
         self.rect.y = y
 
-def GetTMX(file_path):
+def GetTMXData(file_path):
     tmx_load = TMXLoader(file_path)
     return tmx_load

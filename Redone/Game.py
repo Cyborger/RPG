@@ -3,8 +3,8 @@ import PlayingState
 
 class Game:
     def __init__(self):
-        self.screen_width = 400
-        self.screen_height = 400
+        self.screen_width = 32*20
+        self.screen_height = 32*20
         self.screen = pygame.Surface((self.screen_width, self.screen_height))
 
         self.render_screen_width = self.screen_width

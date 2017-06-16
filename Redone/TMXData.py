@@ -7,12 +7,13 @@ class TMXData:
         self.tiles = []
         self.objects = []
         self.collisions = []
-        self.tile_width = self.data.tile_width
-        self.tile_height = self.data.tile_height
+        self.tile_width = self.data.tilewidth
+        self.tile_height = self.data.tileheight
         self.tiles_wide = self.data.width
         self.tiles_high = self.data.height
         self.map_width = self.tile_width * self.tiles_wide
         self.map_height = self.tile_height * self.tiles_high
+        self.Load()
 
     def Load(self):
         for layer in self.data.visible_layers:
@@ -31,7 +32,18 @@ class TMXData:
         for obj in layer:
             self.AddCollision(obj)
 
-
-    def GetProperty(self, property_name):
+    def AddCollision(self, obj):
+        new_collision_object = CollisionObject.CollisionObject(obj.width, obj.height,
+                                                               obj.x, obj.y)
+        self.objects.append(new_collision_object)
+        self.collisions.append(new_collision_object)
+    def GetMapProperty(self, property_name):
         value = self.data.properties.get(property_name)
         return value
+
+class Tile:
+    def __init__(self, image, x, y):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y

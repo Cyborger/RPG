@@ -1,28 +1,22 @@
-import TMXLoader
-import os
+import TMXData
 
 class Location:
-    def __init__(self, name, tmx_path):
-        tmx_data = TMXLoader.GetTMXData(tmx_path)
-        self.name = name
-        self.tiles = tmx_data.tiles
-        self.collisions = tmx_data.collisions
-        self.width = tmx_data.total_width
-        self.height = tmx_data.total_height
-        self.north_location_name = tmx_data.locaton_n
-        self.east_location_name = tmx_data.location_e
-        self.south_location_name = tmx_data.location_s
-        self.west_location_name = tmx_data.location_w
+    def __init__(self, tmx_path):
+        self.tmx = TMXData.TMXData(tmx_path)
+        self.width = self.tmx.map_width
+        self.height = self.tmx.map_height
+        self.tiles = self.tmx.tiles
+        self.collisions = self.tmx.collisions
 
-def LoadLocations():
-    all_locations = []
-    for file in os.listdir("Resources/TMXMaps"):
-        file_path = os.path.join("Resources/TMXMaps/", file)
-        new_location = Location(file, file_path)
-        all_locations.append(new_location)
-    return all_locations
+        self.name = self.tmx.GetMapProperty("name")
+        self.north_location = self.tmx.GetMapProperty("north_location")
+        self.east_location = self.tmx.GetMapProperty("east_location")
+        self.south_location = self.tmx.GetMapProperty("south_location")
+        self.west_location = self.tmx.GetMapProperty("west_location")
 
-def GetLocationByName(string, all_locations):
-    for location in all_locations:
-        if location.name == string:
-            return location
+    def GetAdjacentLocation(self, direction):
+        location_to_check = None
+        if direction == "up":
+            location_to_check = self.north_location
+        elif direction == "right":
+            location_to_check = self.east_location

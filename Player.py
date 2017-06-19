@@ -1,18 +1,19 @@
 import pygame
 import math
 
+import FloatPosition
+
 class Player:
-    def __init__(self):
+    def __init__(self, start_x=0.0, start_y = 0.0):
         self.image = pygame.Surface((25, 25))
         self.image.fill((255, 255, 255))
         self.rect = self.image.get_rect()
-        self.actual_x = 0.0
-        self.actual_y = 0.0
+        self.pos = FloatPosition.FloatPosition(self.rect, start_x, start_y)
+        self.pos.UpdateRectPosition()
 
-        self.speed = 4.0
+        self.speed = 2.0
         self.move_x = 0.0
         self.move_y = 0.0
-
 
     def HandleMovementInput(self):
         keys_pressed = pygame.key.get_pressed()
@@ -31,43 +32,23 @@ class Player:
         if keys_pressed[pygame.K_s]:
             self.move_y += self.speed
 
-        # Handle diagonal movement
-        if self.move_x is not 0.0 and self.move_y is not 0.0:
-            self.move_x = (self.speed / math.sqrt(2)) * (self.move_x / self.speed)
-            self.move_y = (self.speed / math.sqrt(2)) * (self.move_y / self.speed)
+        self.DealWithDiagonalMovement()
 
-        self.actual_x += self.move_x
-        self.actual_y += self.move_y
+        self.pos.x += self.move_x
+        self.pos.y += self.move_y
+
+    def DealWithDiagonalMovement(self):
+        if self.move_x != 0.0 and self.move_y != 0.0:
+            self.move_x = (self.speed / math.sqrt(2.0)) * (self.move_x / self.speed)
+            self.move_y = (self.speed / math.sqrt(2.0)) * (self.move_y / self.speed)
 
     def UpdateMovement(self, collisions=[]):
-        self.UpdateRectXPosition()
-        horizontal_collisions = pygame.sprite.spritecollide(self, collisions,
-                                                            False)
-        for collision in horizontal_collisions:
-            collision.HorizontalCollide(self)
+        self.pos.UpdateRectPositionX()
+        horizontal_collisions = pygame.sprite.spritecollide(self, collisions, False)
+        for collision_object in horizontal_collisions:
+            collision_object.HorizontalCollide(self)
 
-        self.UpdateRectYPosition()
-        vertical_collisions = pygame.sprite.spritecollide(self, collisions,
-                                                          False)
-        for collision in vertical_collisions:
-            collision.VerticalCollide(self)
-
-    def UpdateActualPosition(self):
-        self.UpdateActualXPosition()
-        self.UpdateActualYPosition()
-
-    def UpdateActualXPosition(self):
-        self.actual_x = self.rect.x
-
-    def UpdateActualYPosition(self):
-        self.actual_y = self.rect.y
-
-    def UpdateRectPosition(self):
-        self.UpdateRectXPosition()
-        self.UpdateRectYPosition()
-
-    def UpdateRectXPosition(self):
-        self.rect.x = int(self.actual_x)
-
-    def UpdateRectYPosition(self):
-        self.rect.y = int(self.actual_y)
+        self.pos.UpdateRectPositionY()
+        vertical_collisions = pygame.sprite.spritecollide(self, collisions, False)
+        for collision_object in vertical_collisions:
+            collision_object.VerticalCollide(self)

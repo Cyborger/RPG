@@ -1,3 +1,4 @@
+import os
 import TMXData
 
 class Location:
@@ -20,3 +21,11 @@ class Location:
             location_to_check = self.north_location
         elif direction == "right":
             location_to_check = self.east_location
+
+def GetAllLocations():
+    all_locations = []
+    for file in os.listdir("Resources/TMXMaps"):
+        file_path = os.path.join("Resources/TMXMaps/", file)
+        new_location = Location(file_path)
+        all_locations.append(new_location)
+    return all_locations

@@ -6,13 +6,9 @@ import Location
 class PlayingState(GameState.GameState):
     def __init__(self, game):
         super().__init__(game)
-        self.locations = []
-        starting_location = Location.Location("Resources/TMXMaps/TestLocation.tmx")
-        second_location = Location.Location("Resources/TMXMaps/SecondLocation.tmx")
-        self.locations.append(starting_location)
-        self.locations.append(second_location)
-        self.current_location = starting_location
-        self.player = Player.Player(50.0, 50.0)
+        self.locations = Location.GetAllLocations()
+        self.current_location = self.GetLocationByName("starting_location")
+        self.player = Player.Player(32*10.0, 32*10.0)
         self.fps = 120
 
     def GetInput(self):
@@ -61,6 +57,10 @@ class PlayingState(GameState.GameState):
             self.player.pos.UpdateFloatPositionY()
 
     def ChangeLocation(self, new_location):
+        self.current_location = self.GetLocationByName(new_location)
+
+    def GetLocationByName(self, string):
         for location in self.locations:
-            if location.name == new_location:
-                self.current_location = location
+            if location.name == string:
+                return location
+        print("ERROR: No location found by the name of: " + string)

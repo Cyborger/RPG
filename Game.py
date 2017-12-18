@@ -1,50 +1,42 @@
-import pygame
-import PlayingState
+import zedlib
+from playing_state import PlayingState
+from dialogue_state import DialogueState
+from location import Location
+import os
 
-class Game:
+
+class Game(zedlib.Game):
     def __init__(self):
-        self.screen_width = 32*20
-        self.screen_height = 32*20
-        self.screen = pygame.Surface((self.screen_width, self.screen_height))
+        super().__init__(1280, 720)
+        self.locations = self.load_locations()
+        self.passages = self.get_all_passages()
 
-        self.render_screen_width = self.screen_width
-        self.render_screen_height = self.screen_height
-        self.render_screen = None
-        self.SetResizableWindow()
+        self.playing_state = PlayingState(self)
+        self.dialogue_state = DialogueState(self)
+        self.change_state(self.playing_state)
 
-        self.playing_state = PlayingState.PlayingState(self)
-        self.current_state = self.playing_state
 
-        self.clock = pygame.time.Clock()
-        self.running = True
+    def load_locations(self):
+        location_list = []
+        for file in os.listdir("Resources/TMX"):
+            if file.endswith(".tmx"):
+                path = os.path.join("Resources/TMX/", file)
+                print("Loading location: %s" % file)
+                location_list.append(Location(path))
+        return location_list
 
-    def RunLoop(self):
-        while self.running:
-            self.current_state.HandleEvents()
-            self.current_state.GetInput()
-            self.current_state.Update()
-            self.current_state.ClearScreen()
-            self.current_state.DrawScreen()
-            self.current_state.UpdateDisplay()
-            self.current_state.HandleFPS()
+    def get_location(self, location_name):
+        for location in self.locations:
+            if location.name == location_name:
+                return location
 
-    def SetResizableWindow(self):
-        self.render_screen = pygame.display.set_mode((self.render_screen_width,
-                                                      self.render_screen_height),
-                                                     pygame.RESIZABLE)
+    def get_all_passages(self):
+        passage_list = []
+        for location in self.locations:
+            passage_list.extend(location.passages)
+        return passage_list
 
-    def SetFullScreenWindow(self):
-        self.render_screen = pygame.display.set_mode((self.render_screen_width,
-                                                      self.render_screen_height),
-                                                     pygame.FULLSCREEN)
-
-    def ResizeWindow(self, new_width, new_height):
-        self.render_screen_width = new_width
-        self.render_screen_height = new_height
-        self.SetResizableWindow()
-
-    def EnterFullscreen(self):
-        display_info = pygame.display.Info()
-        self.render_screen_width = display_info.current_w
-        self.render_screen_height = display_info.current_h
-        self.SetFullScreenWindow()
+    def get_passage(self, passage_name):
+        for passage in self.passages:
+            if passage.name == passage_name:
+                return passage

@@ -1,31 +1,63 @@
-import os
-import TMXData
+import zedlib
+import pygame
+from passage import Passage
+from npc import NPC
 
 class Location:
-    def __init__(self, tmx_path):
-        self.tmx = TMXData.TMXData(tmx_path)
-        self.width = self.tmx.map_width
-        self.height = self.tmx.map_height
-        self.tiles = self.tmx.tiles
-        self.collisions = self.tmx.collisions
+    def __init__(self, tmx_file_path):
+        self.tmx_data = zedlib.load_tmx(tmx_file_path)
+        self.name = self.tmx_data.properties["Name"]
 
-        self.name = self.tmx.GetMapProperty("name")
-        self.north_location = self.tmx.GetMapProperty("north_location")
-        self.east_location = self.tmx.GetMapProperty("east_location")
-        self.south_location = self.tmx.GetMapProperty("south_location")
-        self.west_location = self.tmx.GetMapProperty("west_location")
+        self.tiles = self.load_tiles()
+        self.collisions = self.load_collisions() + self.create_boundries()
+        self.passages = self.load_passages()
+        self.npcs = self.load_npcs()
 
-    def GetAdjacentLocation(self, direction):
-        location_to_check = None
-        if direction == "up":
-            location_to_check = self.north_location
-        elif direction == "right":
-            location_to_check = self.east_location
+    def load_tiles(self):
+        tile_list = []
+        for layer in self.tmx_data.tile_layers:
+            for x, y, image in layer.tiles():
+                x_pos = x * self.tmx_data.tile_width
+                y_pos = y * self.tmx_data.tile_height
+                tile_list.append(zedlib.Surface(image, x_pos, y_pos))
+        return tile_list
 
-def GetAllLocations():
-    all_locations = []
-    for file in os.listdir("Resources/TMXMaps"):
-        file_path = os.path.join("Resources/TMXMaps/", file)
-        new_location = Location(file_path)
-        all_locations.append(new_location)
-    return all_locations
+    def load_collisions(self):
+        if not self.tmx_data.get_layer("Collisions"): return []
+
+        collision_list = []
+        for obj in self.tmx_data.get_layer("Collisions"):
+            collision_obj = zedlib.CollisionObject(obj.width, obj.height,
+                                                   obj.x, obj.y)
+            collision_list.append(collision_obj)
+        return collision_list
+
+    def load_passages(self):
+        if not self.tmx_data.get_layer("Passages"): return []
+
+        passage_list = []
+        for passage in self.tmx_data.get_layer("Passages"):
+            rect = pygame.Rect(passage.x, passage.y,
+                               passage.width, passage.height)
+            passage_list.append(Passage(passage.name, rect,
+                                        self.name, passage.properties))
+        return passage_list
+
+    def create_boundries(self):
+        boundry_list = []
+        left = zedlib.CollisionObject(10, self.tmx_data.map_height, -10, 0)
+        right = zedlib.CollisionObject(10, self.tmx_data.map_height,
+                                       self.tmx_data.map_width, 0)
+        top = zedlib.CollisionObject(self.tmx_data.map_width, 10, 0, -10)
+        bottom = zedlib.CollisionObject(self.tmx_data.map_width, 10,
+                                        0, self.tmx_data.map_height)
+        boundry_list.extend([left, right, top, bottom])
+        return boundry_list
+
+    def load_npcs(self):
+        if not self.tmx_data.get_layer("NPCs"): return []
+
+        npc_list = []
+        for npc in self.tmx_data.get_layer("NPCs"):
+            npc_list.append(NPC(npc.properties, npc.x, npc.y))
+        return npc_list

@@ -41,11 +41,11 @@
 </data>
  </layer>
  <objectgroup name="NPCs">
-  <properties>
-   <property name="Dialogue" value="Hi, my name is Bob"/>
-   <property name="Name" value="Bob"/>
-  </properties>
-  <object id="24" gid="13" x="576" y="704" width="32" height="32"/>
+  <object id="24" gid="13" x="576" y="704" width="32" height="32">
+   <properties>
+    <property name="Dialogue" value="Hello.\eMy name is Bob."/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Walls" width="30" height="30">
   <data encoding="csv">

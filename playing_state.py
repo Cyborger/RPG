@@ -51,4 +51,5 @@ class PlayingState(zedlib.GameState):
     def check_for_npc_interaction(self):
         for npc in self.current_location.npcs:
             if self.player.rect.colliderect(npc.rect):
+                self.game.dialogue_state.set_messages(npc.messages)
                 self.game.change_state(self.game.dialogue_state)

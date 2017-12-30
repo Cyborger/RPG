@@ -1,7 +1,10 @@
 import zedlib
 from playing_state import PlayingState
 from dialogue_state import DialogueState
+from inventory_state import InventoryState
+from settings_state import SettingsState
 from location import Location
+from gui import GUI
 import os
 
 
@@ -10,19 +13,25 @@ class Game(zedlib.Game):
         super().__init__(1280, 720)
         self.locations = self.load_locations()
         self.passages = self.get_all_passages()
+        self.gui = GUI(self)
 
         self.playing_state = PlayingState(self)
         self.dialogue_state = DialogueState(self)
+        self.inventory_state = InventoryState(self)
+        self.settings_state = SettingsState(self)
         self.change_state(self.playing_state)
 
 
     def load_locations(self):
+        tmx_directory = "Resources/TMX"
         location_list = []
-        for file in os.listdir("Resources/TMX"):
+
+        for file in os.listdir(tmx_directory):
             if file.endswith(".tmx"):
-                path = os.path.join("Resources/TMX/", file)
+                path = os.path.join(tmx_directory, file)
                 print("Loading location: %s" % file)
                 location_list.append(Location(path))
+
         return location_list
 
     def get_location(self, location_name):

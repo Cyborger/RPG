@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="25">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="27">
  <properties>
   <property name="Name" value="Field"/>
  </properties>
- <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="32" tilecount="2" columns="2">
-  <image source="Tiles/Tiles.png" trans="ff00ff" width="64" height="32"/>
+ <tileset firstgid="1" name="Tiles" tilewidth="32" tileheight="32" tilecount="16" columns="4">
+  <image source="Tiles/Tiles.png" trans="ff00ff" width="128" height="128"/>
  </tileset>
  <layer name="Background" width="20" height="20">
   <data encoding="csv">
@@ -72,4 +72,5 @@
   <object id="22" x="32" y="0" width="256" height="32"/>
   <object id="23" x="352" y="0" width="256" height="32"/>
  </objectgroup>
+ <objectgroup name="NPCs"/>
 </map>

@@ -40,13 +40,7 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <objectgroup name="NPCs">
-  <object id="24" gid="13" x="576" y="704" width="32" height="32">
-   <properties>
-    <property name="Dialogue" value="Hello.\eMy name is Bob."/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup name="NPCs"/>
  <layer name="Walls" width="30" height="30">
   <data encoding="csv">
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,

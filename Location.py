@@ -3,6 +3,9 @@ import pygame
 from passage import Passage
 from npc import NPC
 
+
+#TODO: Seperate top and bottom layer tiles
+
 class Location:
     def __init__(self, tmx_file_path):
         self.tmx_data = zedlib.load_tmx(tmx_file_path)
@@ -37,10 +40,7 @@ class Location:
 
         passage_list = []
         for passage in self.tmx_data.get_layer("Passages"):
-            rect = pygame.Rect(passage.x, passage.y,
-                               passage.width, passage.height)
-            passage_list.append(Passage(passage.name, rect,
-                                        self.name, passage.properties))
+            passage_list.append(Passage(passage, self.name))
         return passage_list
 
     def create_boundries(self):
@@ -59,5 +59,5 @@ class Location:
 
         npc_list = []
         for npc in self.tmx_data.get_layer("NPCs"):
-            npc_list.append(NPC(npc.properties, npc.x, npc.y))
+            npc_list.append(NPC(npc))
         return npc_list

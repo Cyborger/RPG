@@ -1,13 +1,13 @@
 import zedlib
 import pygame
 
+
 class NPC(zedlib.GameSprite):
-    def __init__(self, tmx_properties, x=0, y=0):
-        image = pygame.Surface((30, 30))
-        pygame.draw.circle(image, (255, 255, 255), (15, 15), 15)
-        super().__init__(image, x, y)
+    def __init__(self, tmx_object):
+        super().__init__(tmx_object.image, tmx_object.x, tmx_object.y)
+        self.name = tmx_object.name
         self.messages = []
-        self.load_messages(tmx_properties["Dialogue"])
+        self.load_messages(tmx_object.properties["Dialogue"])
 
     def load_messages(self, text):
         current_string = text

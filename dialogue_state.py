@@ -27,7 +27,8 @@ class DialogueState(zedlib.GameState):
         self.message_label.draw(self.game.screen)
         self.name_label.draw(self.game.screen)
 
-    def handle_other_events(self, events):
+    def handle_events(self, events):
+        super().handle_events(events)
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:

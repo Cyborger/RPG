@@ -11,8 +11,8 @@ class InventoryState(zedlib.GameState):
         background_image = zedlib.load_image("Resources/Images/"\
                                               "InventoryMenu.png", scale=4)
         self.background = zedlib.Surface(background_image)
-        self.background.center_horizontal(self.game.get_screen_rect())
-        self.background.center_vertical(self.game.get_screen_rect())
+        self.background.center_horizontal(self.game.screen.get_rect())
+        self.background.center_vertical(self.game.screen.get_rect())
 
         self.slot_size = self.inventory_tile_image.get_width()
         self.slots_wide = 5
@@ -31,7 +31,8 @@ class InventoryState(zedlib.GameState):
         self.max_y = (self.slot_size * self.slots_high
                       + self.spacing * self.slots_high - 1)
 
-    def handle_other_events(self, events):
+    def handle_events(self, events):
+        super().handle_events(events)
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 4:

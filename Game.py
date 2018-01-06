@@ -12,7 +12,6 @@ class Game(zedlib.Game):
     def __init__(self):
         super().__init__(1280, 720)
         self.locations = self.load_locations()
-        self.passages = self.get_all_passages()
         self.gui = GUI(self)
 
         self.playing_state = PlayingState(self)
@@ -21,17 +20,15 @@ class Game(zedlib.Game):
         self.settings_state = SettingsState(self)
         self.change_state(self.playing_state)
 
-
     def load_locations(self):
         tmx_directory = "Resources/TMX"
         location_list = []
 
         for file in os.listdir(tmx_directory):
             if file.endswith(".tmx"):
-                path = os.path.join(tmx_directory, file)
                 print("Loading location: %s" % file)
+                path = os.path.join(tmx_directory, file)
                 location_list.append(Location(path))
-
         return location_list
 
     def get_location(self, location_name):
@@ -46,6 +43,6 @@ class Game(zedlib.Game):
         return passage_list
 
     def get_passage(self, passage_name):
-        for passage in self.passages:
+        for passage in self.get_all_passages():
             if passage.name == passage_name:
                 return passage

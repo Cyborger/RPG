@@ -7,8 +7,8 @@ class Passage:
         self.rect = pygame.Rect(tmx_object.x, tmx_object.y, tmx_object.width,
                                 tmx_object.height)
         self.location = location
-        self.passage_to = tmx_object.properties["Passage To"]
         self.exit_direction = tmx_object.properties["Exit Direction"]
+        self.passage_to = tmx_object.properties["Passage To"]
 
     def update_player_position(self, player):
         if self.exit_direction == "Up":

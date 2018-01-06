@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="11">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" nextobjectid="12">
  <properties>
   <property name="Name" value="Cabin Inside"/>
  </properties>
@@ -21,6 +21,9 @@
 </data>
  </layer>
  <layer name="Walls" width="10" height="10">
+  <properties>
+   <property name="Layer" type="int" value="1"/>
+  </properties>
   <data encoding="csv">
 2,2,2,2,2,2,2,2,2,2,
 2,0,0,0,0,0,0,0,0,2,
@@ -34,6 +37,9 @@
 2,2,2,2,0,0,2,2,2,2
 </data>
  </layer>
+ <objectgroup name="Chests">
+  <object id="11" gid="14" x="254" y="285.333" width="32" height="32"/>
+ </objectgroup>
  <objectgroup name="Collisions">
   <object id="1" x="0" y="0" width="32" height="320"/>
   <object id="2" x="288" y="0" width="32" height="320"/>

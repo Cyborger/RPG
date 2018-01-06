@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="27">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="45">
  <properties>
   <property name="Name" value="Field"/>
  </properties>
@@ -31,6 +31,9 @@
 </data>
  </layer>
  <layer name="Walls" width="20" height="20">
+  <properties>
+   <property name="Layer" type="int" value="1"/>
+  </properties>
   <data encoding="csv">
 2,2,2,2,2,2,2,2,2,0,0,2,2,2,2,2,2,2,2,2,
 2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,
